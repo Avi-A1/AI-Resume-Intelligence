@@ -39,7 +39,7 @@ if choice == "Signup":
 
     if st.button("Signup"):
 
-        success = add_user(
+        success =  register_user(
             username,
             password
         )

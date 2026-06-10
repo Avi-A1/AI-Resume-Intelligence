@@ -6,7 +6,6 @@ import os
 # -----------------------------------
 DB_FOLDER = "database"
 
-# Create database folder if missing
 if not os.path.exists(DB_FOLDER):
     os.makedirs(DB_FOLDER)
 
@@ -38,9 +37,7 @@ def create_tables():
 
     cursor = conn.cursor()
 
-    # -------------------------------
     # USERS TABLE
-    # -------------------------------
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
 
@@ -52,9 +49,7 @@ def create_tables():
         )
     """)
 
-    # -------------------------------
     # RESUME ANALYSIS TABLE
-    # -------------------------------
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS resume_analysis (
 
@@ -77,7 +72,7 @@ def create_tables():
 
 
 # -----------------------------------
-# USER AUTH
+# REGISTER USER
 # -----------------------------------
 def register_user(
     username,
@@ -114,6 +109,22 @@ def register_user(
         return False
 
 
+# -----------------------------------
+# ADD USER (ALIAS FIX)
+# -----------------------------------
+def add_user(
+    username,
+    password
+):
+    return register_user(
+        username,
+        password
+    )
+
+
+# -----------------------------------
+# LOGIN USER
+# -----------------------------------
 def login_user(
     username,
     password
@@ -125,7 +136,8 @@ def login_user(
 
     cursor.execute(
         """
-        SELECT * FROM users
+        SELECT *
+        FROM users
         WHERE username=?
         AND password=?
         """,
@@ -188,7 +200,7 @@ def save_resume_analysis(
 
 
 # -----------------------------------
-# GET USER HISTORY
+# GET HISTORY
 # -----------------------------------
 def get_resume_history(
     username
@@ -200,10 +212,11 @@ def get_resume_history(
 
     cursor.execute(
         """
-        SELECT role,
-               ats_score,
-               readiness,
-               skills
+        SELECT
+            role,
+            ats_score,
+            readiness,
+            skills
         FROM resume_analysis
         WHERE username=?
         """,
