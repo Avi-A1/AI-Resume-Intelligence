@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import PyPDF2
+from pypdf import PdfReader
 import plotly.express as px
 import joblib
 
@@ -56,10 +56,7 @@ def extract_resume_text(pdf_file):
 
     try:
 
-        pdf_reader = PyPDF2.PdfReader(
-            pdf_file
-        )
-
+        pdf_reader = PdfReader(pdf_file)
         for page in pdf_reader.pages:
 
             page_text = page.extract_text()
